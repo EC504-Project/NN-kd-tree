@@ -7,13 +7,25 @@ using kd-tree to do the Approximate Nearest Neighbor search
 - **April 9: Midterm Report Due**
 - **May 2: Final Presentation**
 - **May 4: Final Report Due**
-## Locality Sensistive Hashing
-- Group Members: Yutong Gao, Zhiyuan Ruan, Hongtao Zhao
-- Development Language: Java
-### LSH Background
-- Locality sensitive hashing(LSH): hashing items into bins many times and looking only at those items that fall into the same bin at least once (without looking at every pair).
-- Cosine similarity is a measure of similarity between two non-zero vectors of an inner product space that measures the cosine of the angle between them. If the angle is 0 degree the cosine value will be one and if the angle is 90 degree the cosine value will be 0. In paper 'Kernelized Locality-Sensitive Hashing for Scalable Image Search', it is proved that we can find a vector r and transfer of r multiply the vector of picture can be used to generate hash codes for pictures. Using different vector r to create hash tables and we can put similar picture to the same bucket theoretically. 
-- Because we ignore the length of the vector. We need to do double check when we input a picture to find similiarity. Hamming distance will be helpful. We transfer the picture to gray version and caculate the mean of all the pixels. Compare the value of pixels with mean, if it's large assign 1, otherwise assign 0. Now we get the fingureprint of every picture in the bucket. And we find the bucket input belong to, compare the input fingerprint wich is a list of 0 and 1 to the picture in the bucket then we can find the similarity.
+## kd-tree
+- Group Members: Zhiyu Wang, Zheng Gu
+- Development Language: Python
+### Kd-tree
+-To make kd-tree structure feasible, we decided to do dimension reduction to the original data. Due to we chose CIFAR-10 as our data set, all the input file would be a 32*32 RGB images, and we decided to use grayscale value as the features, so the first thing is to convert the color image to grayscale images. By loading the grayscale images pixel by pixel, for each image, we got a 32*32 matrix.
+-To accurate the speed of kd-tree, we chose average pooling and max pooling to preprocessing the image matrix. By comparing the result and analyzing the situation, we decided to go with average pooling, because we want to separate the images as much as possible. All the difference in the grayscale value should be taken into consideration. After the average pooling with a 8*8 kernel, each image turned into a 4*4 matrix. 
+-By scanning through the 4*4 matrix, each image could be represented as a 16 dimensional vector. Then we built the kd-tree and did nn search on these new data set. It provided good performance.
+
+#### Steps
+Image preprocessing
+Import pickle to accomplish the serialization of the binary file.
+Import image library from PIL, to load the grayscale image and store as a matrix.
+Import the skimage.measure to finish the mean pooling of matrix and convert images to 16d vectors.
+Similarity calculation
+Import numpy to do the calculation of the similarity between two vectors.
+General use
+Import sys to read the test path from command line.
+Import time to get the running time of the main function.
+
 ### Functions of current version
 - Read the path of images in document
 - Convert image from RGB to grey scale
